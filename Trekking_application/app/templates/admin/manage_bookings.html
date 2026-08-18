@@ -1,0 +1,120 @@
+{% extends "admin/base_admin.html" %} {% block title %} Manage Bookings {%
+endblock %} {% block sidebar %}
+
+<a
+  href="{{ url_for('admin.dashboard') }}"
+  class="list-group-item list-group-item-action"
+>
+  <i class="bi bi-speedometer2 me-2"></i>
+
+  Dashboard
+</a>
+
+<a
+  href="{{ url_for('admin.manage_treks') }}"
+  class="list-group-item list-group-item-action"
+>
+  <i class="bi bi-signpost-2-fill me-2"></i>
+
+  Treks
+</a>
+
+<a
+  href="{{ url_for('admin.pending_staff') }}"
+  class="list-group-item list-group-item-action"
+>
+  <i class="bi bi-person-check-fill me-2"></i>
+
+Staff
+</a>
+
+<a
+  href="{{ url_for('admin.manage_users') }}"
+  class="list-group-item list-group-item-action"
+>
+  <i class="bi bi-people-fill me-2"></i>
+
+  Users
+</a>
+
+<a
+  href="{{ url_for('admin.manage_bookings') }}"
+  class="list-group-item list-group-item-action active"
+>
+  <i class="bi bi-journal-check me-2"></i>
+
+  Bookings
+</a>
+
+{% endblock %} {% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2>
+    <i class="bi bi-journal-check text-success me-2"></i>
+
+    Manage Bookings
+  </h2>
+</div>
+
+<div class="card shadow-sm border-0">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-success">
+          <tr>
+            <th>ID</th>
+
+            <th>User</th>
+
+            <th>Trek</th>
+
+            <th>Booking Date</th>
+
+            <th>Status</th>
+
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for booking in bookings %}
+
+          <tr>
+            <td>{{ booking.id }}</td>
+
+            <td>{{ booking.user.first_name }} {{ booking.user.last_name }}</td>
+
+            <td>{{ booking.trek.trek_name }}</td>
+
+            <td>{{ booking.booking_date.strftime('%d-%m-%Y') }}</td>
+
+            <td>
+              <span class="badge bg-success"> {{ booking.status }} </span>
+            </td>
+
+            <td>
+              <a
+                href="{{ url_for('admin.delete_booking', booking_id=booking.id) }}"
+                class="btn btn-danger btn-sm"
+              >
+                <i class="bi bi-trash"></i>
+
+                Delete
+              </a>
+            </td>
+          </tr>
+
+          {% else %}
+
+          <tr>
+            <td colspan="6" class="text-center py-4">No Bookings Found</td>
+          </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends "admin/base_admin.html" %} {% block title %} Add Trek {% endblock %}
+
+<!-- ================= SIDEBAR ================= -->
+
+{% block sidebar %}
+
+<a
+  href="{{ url_for('admin.dashboard') }}"
+  class="list-group-item list-group-item-action"
+>
+  <i class="bi bi-speedometer2 me-2"></i>
+
+  Dashboard
+</a>
+
+<a
+  href="{{ url_for('admin.add_trek') }}"
+  class="list-group-item list-group-item-action active"
+>
+  <i class="bi bi-signpost-2-fill me-2"></i>
+
+  Treks
+</a>
+
+<a href="{{url_for('admin.pending_staff')}}" class="list-group-item list-group-item-action">
+  <i class="bi bi-people-fill me-2"></i>
+
+  Staff
+</a>
+
+<a href="{{url_for('admin.manage_users')}}" class="list-group-item list-group-item-action">
+  <i class="bi bi-person-walking me-2"></i>
+
+  Users
+</a>
+
+<a href="{{url_for('admin.manage_bookings')}}" class="list-group-item list-group-item-action">
+  <i class="bi bi-calendar-check-fill me-2"></i>
+
+  Bookings
+</a>
+
+{% endblock %}
+
+
+{% block content %}
+
+<nav class="mb-4">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="{{ url_for('admin.dashboard') }}"> Dashboard </a>
+    </li>
+
+    <li class="breadcrumb-item">Treks</li>
+
+    <li class="breadcrumb-item active">Add Trek</li>
+  </ol>
+</nav>
+
+<div class="mb-4">
+  <h2 class="fw-bold">
+    <i class="bi bi-plus-circle-fill text-success me-2"></i>
+
+    Add New Trek
+  </h2>
+
+  <p class="text-muted">Create a new trekking experience.</p>
+</div>
+
+
+<div class="card shadow-sm border-0 rounded-4">
+  <div class="card-body p-4">
+    <form method="POST">
+      {{ form.hidden_tag() }}
+
+
+      <div class="mb-3">
+        {{ form.trek_name.label(class="form-label fw-semibold") }} {{
+        form.trek_name(class="form-control") }} {% for error in
+        form.trek_name.errors %}
+
+        <small class="text-danger"> {{ error }} </small>
+
+        {% endfor %}
+      </div>
+
+
+      <div class="mb-3">
+        {{ form.location.label(class="form-label fw-semibold") }} {{
+        form.location(class="form-control") }} {% for error in
+        form.location.errors %}
+
+        <small class="text-danger"> {{ error }} </small>
+
+        {% endfor %}
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          {{ form.difficulty.label(class="form-label fw-semibold") }} {{
+          form.difficulty(class="form-select") }}
+        </div>
+
+        <div class="col-md-6 mb-3">
+          {{ form.duration.label(class="form-label fw-semibold") }} {{
+          form.duration(class="form-control") }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          {{ form.available_slots.label(class="form-label fw-semibold") }} {{
+          form.available_slots(class="form-control", min="1") }}
+        </div>
+
+        <div class="col-md-6 mb-3">
+          {{ form.assigned_staff.label(class="form-label fw-semibold") }} {{
+          form.assigned_staff(class="form-select") }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          {{ form.start_date.label(class="form-label fw-semibold") }} {{
+          form.start_date(class="form-control") }}
+        </div>
+
+        <div class="col-md-6 mb-3">
+          {{ form.end_date.label(class="form-label fw-semibold") }} {{
+          form.end_date(class="form-control") }}
+        </div>
+      </div>
+
+      <div class="mb-4">
+        {{ form.status.label(class="form-label fw-semibold") }} {{
+        form.status(class="form-select") }}
+      </div>
+
+
+      <div class="d-flex justify-content-between">
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-secondary">
+          <i class="bi bi-arrow-left"></i>
+          Cancel
+        </a>
+
+        {{ form.submit(class="btn btn-success px-4") }}
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends "admin/base_admin.html" %} {% block title %} Manage Users {% endblock
+%} {% block sidebar %}
+
+<a
+  href="{{ url_for('admin.dashboard') }}"
+  class="list-group-item list-group-item-action"
+>
+  <i class="bi bi-speedometer2 me-2"></i>
+
+  Dashboard
+</a>
+
+<a
+  href="{{ url_for('admin.manage_treks') }}"
+  class="list-group-item list-group-item-action"
+>
+  <i class="bi bi-signpost-2-fill me-2"></i>
+
+  Treks
+</a>
+
+<a
+  href="{{ url_for('admin.pending_staff') }}"
+  class="list-group-item list-group-item-action"
+>
+  <i class="bi bi-person-check-fill me-2"></i>
+
+  Staff
+</a>
+
+<a
+  href="{{ url_for('admin.manage_users') }}"
+  class="list-group-item list-group-item-action active"
+>
+  <i class="bi bi-people-fill me-2"></i>
+
+  Users
+</a>
+
+<a
+  href="{{ url_for('admin.manage_bookings') }}"
+  class="list-group-item list-group-item-action"
+>
+  <i class="bi bi-journal-check me-2"></i>
+
+  Bookings
+</a>
+
+{% endblock %} {% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2>
+    <i class="bi bi-people-fill text-success me-2"></i>
+
+    Manage Users
+  </h2>
+</div>
+
+<form method="GET" class="row mb-4">
+  <div class="col-md-6">
+    <input
+      type="text"
+      name="search"
+      class="form-control"
+      placeholder="Search by First Name..."
+      value="{{ search }}"
+    />
+  </div>
+
+  <div class="col-md-2">
+    <button class="btn btn-success w-100">
+      <i class="bi bi-search"></i>
+
+      Search
+    </button>
+  </div>
+</form>
+
+<div class="card shadow-sm border-0">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-success">
+          <tr>
+            <th>Name</th>
+
+            <th>Email</th>
+
+            <th>Phone</th>
+
+            <th>Status</th>
+
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for user in users %}
+
+          <tr>
+            <td>{{ user.first_name }} {{ user.last_name }}</td>
+
+            <td>{{ user.email }}</td>
+
+            <td>{{ user.phone }}</td>
+
+            <td>
+              {% if user.is_blacklisted %}
+
+              <span class="badge bg-danger"> Blacklisted </span>
+
+              {% else %}
+
+              <span class="badge bg-success"> Active </span>
+
+              {% endif %}
+            </td>
+
+            <td>
+              {% if user.is_blacklisted %}
+
+              <a
+                href="{{ url_for('admin.unblacklist_user', user_id=user.id) }}"
+                class="btn btn-success btn-sm"
+              >
+                <i class="bi bi-check-circle"></i>
+
+                Restore
+              </a>
+
+              {% else %}
+
+              <a
+                href="{{ url_for('admin.blacklist_user', user_id=user.id) }}"
+                class="btn btn-danger btn-sm"
+              >
+                <i class="bi bi-slash-circle"></i>
+
+                Blacklist
+              </a>
+
+              {% endif %}
+            </td>
+          </tr>
+
+          {% else %}
+
+          <tr>
+            <td colspan="5" class="text-center py-4">No Users Found</td>
+          </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
